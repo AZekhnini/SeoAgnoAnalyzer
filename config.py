@@ -1,10 +1,5 @@
 """
 Configuration file for API keys and settings.
-
-SECURITY NOTE:
-- Add this file to .gitignore
-- Never commit API keys to version control
-- Use environment variables in production
 """
 
 import os
