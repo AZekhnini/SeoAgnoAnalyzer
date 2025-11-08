@@ -82,18 +82,3 @@ python playground_app.py
 ## Documentation
 
 - [CLI Guide](CLI_GUIDE.md) - CLI commands and options
-- [API Examples](API_EXAMPLES.md) - REST API usage
-- [Installation](INSTALLATION.md) - Detailed setup instructions
-
-## Cost Estimates
-
-Approximate cost per full URL analysis: **$0.02-0.03**
-
-- SEO: ~$0.001
-- Performance: ~$0.001
-- UI/UX (vision): ~$0.015-0.025
-- Summary: ~$0.001
-
-## License
-
-MIT License
