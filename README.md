@@ -16,7 +16,7 @@ AI-powered website analysis for SEO, Performance, and UI/UX evaluation using Agn
 
 ```bash
 # Install dependencies
-pip install agno requests playwright beautifulsoup4
+pip install -r requirements.txt
 
 # Install browser for screenshots
 playwright install chromium
