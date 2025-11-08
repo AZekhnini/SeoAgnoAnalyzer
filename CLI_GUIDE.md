@@ -70,7 +70,6 @@ python cli.py analyze --screenshots '{"desktop": "desktop.png", "mobile": "mobil
 | `--html-file FILE` | Path to HTML file |
 | `--screenshot PATH` | Single screenshot path |
 | `--screenshots JSON` | Multiple screenshots as JSON |
-| `--output FILE` | Save results to file |
 | `--no-stream` | Disable streaming output |
 | `--verbose` | Show detailed error messages |
 
