@@ -162,7 +162,7 @@ class PerformanceAnalyzer:
             api_key: Optional PageSpeed Insights API key (increases rate limits)
         """
         self.url = url
-        self.api_key = api_key or Config.PAGESPEED_API_KEY
+        self.api_key = api_key or Config.get_pagespeed_key()
         self.features = TechnicalPerformanceFeatures(url=url)
 
         # PageSpeed Insights API endpoint
@@ -575,7 +575,6 @@ class LocalPerformanceAnalyzer:
     Fallback analyzer using local tools (Playwright + Chrome DevTools Protocol).
 
     This is completely FREE and provides detailed metrics when APIs fail or reach limits.
-    Requires: pip install playwright && playwright install chromium
     """
 
     def __init__(self, url: str):

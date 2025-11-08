@@ -1,334 +1,121 @@
 # Installation Guide
 
-## Prerequisites
+## Requirements
 
-- **Python 3.8+** (Python 3.10+ recommended)
-- **pip** (Python package manager)
-- **OpenAI API Key** (required)
-- **PageSpeed API Key** (optional, for higher rate limits)
+- Python 3.8+
+- OpenAI API key
+- PageSpeed API key (optional)
 
----
+## Installation Steps
 
-## Quick Install
-
-### 1. Install Python Dependencies
+### 1. Install Python Packages
 
 ```bash
-pip install -r requirements.txt
+pip install agno requests playwright beautifulsoup4
 ```
 
-### 2. Install Playwright Browsers
-
-Playwright needs browser binaries to capture screenshots:
+### 2. Install Playwright Browser
 
 ```bash
 playwright install chromium
 ```
 
-Or install with system dependencies (Linux):
-
+**Troubleshooting:** If you encounter issues, install with dependencies:
 ```bash
 playwright install chromium --with-deps
 ```
 
 ### 3. Configure API Keys
 
-Edit `config.py` and add your API keys:
+Create `config.py`:
 
 ```python
+import os
+
 class Config:
-    # Required
-    OPENAI_API_KEY = "sk-your-openai-api-key-here"
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "your-openai-api-key")
+    PAGESPEED_API_KEY = os.getenv("PAGESPEED_API_KEY", None)
 
-    # Optional (for higher PageSpeed API rate limits)
-    PAGESPEED_API_KEY = "your-pagespeed-api-key-here"
+    @classmethod
+    def get_openai_key(cls):
+        if not cls.OPENAI_API_KEY:
+            raise ValueError("OPENAI_API_KEY not configured")
+        return cls.OPENAI_API_KEY
+
+    @classmethod
+    def validate_required_keys(cls):
+        return bool(cls.OPENAI_API_KEY)
+
+    @classmethod
+    def print_status(cls):
+        print("\nAPI Configuration Status:")
+        print(f"{'[OK]' if cls.OPENAI_API_KEY else '[ERROR]'} OpenAI API Key: {'Configured' if cls.OPENAI_API_KEY else 'Not configured'}")
+        print(f"{'[OK]' if cls.PAGESPEED_API_KEY else '[SKIP]'} PageSpeed API Key: {'Configured' if cls.PAGESPEED_API_KEY else 'Not configured (optional)'}")
+
+if __name__ == "__main__":
+    Config.print_status()
 ```
 
-**Getting API Keys:**
-- **OpenAI**: https://platform.openai.com/api-keys
-- **PageSpeed** (optional): https://console.cloud.google.com/
-
----
-
-## Verify Installation
-
-Run the configuration check:
+### 4. Verify Installation
 
 ```bash
-python -c "from config import Config; Config.print_status()"
+python cli.py test
 ```
 
-You should see:
-```
-API Configuration Status:
-✓ OpenAI API Key: Configured
-✓ PageSpeed API Key: Configured (optional)
-```
+## Getting API Keys
 
----
+### OpenAI API Key (Required)
+1. Go to https://platform.openai.com/api-keys
+2. Sign in or create account
+3. Create new API key
+4. Add to `config.py`
 
-## Running the Application
-
-### Option 1: Command Line Interface
-
-```bash
-python agent.py
-```
-
-Analyzes the default URL (https://nightwatch.io) with comprehensive analysis.
-
-### Option 2: Simple Web UI (Recommended)
-
-```bash
-python webapp.py
-```
-
-Opens ChatGPT-like interface at http://localhost:7860
-
-### Option 3: REST API (AgentOS)
-
-```bash
-python playground_app.py
-```
-
-Starts REST API at http://localhost:7777
-- API docs: http://localhost:7777/docs
-
----
-
-## Package Details
-
-### Core Dependencies
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `agno` | >=0.1.0 | AI agent framework |
-| `openai` | >=1.0.0 | OpenAI API client |
-| `gradio` | >=4.0.0 | Web UI framework |
-| `playwright` | >=1.40.0 | Browser automation (screenshots) |
-| `requests` | >=2.31.0 | HTTP requests |
-| `beautifulsoup4` | >=4.12.0 | HTML parsing |
-| `uvicorn` | >=0.24.0 | ASGI server (for AgentOS) |
-
-### Optional Dependencies
-
-| Package | Purpose |
-|---------|---------|
-| `python-dotenv` | Load environment variables from .env |
-| `httpx` | Enhanced HTTP client |
-| `lxml` | Fast XML/HTML processing |
-
----
+### PageSpeed API Key (Optional)
+1. Go to https://developers.google.com/speed/docs/insights/v5/get-started
+2. Click "Get a Key"
+3. Follow setup instructions
+4. Add to `config.py`
 
 ## Platform-Specific Notes
 
 ### Windows
-
-```bash
-# Install requirements
-pip install -r requirements.txt
-
-# Install Playwright
-playwright install chromium
-```
+- Use PowerShell or CMD
+- No additional setup required
 
 ### macOS
-
+- May need to install system dependencies:
 ```bash
-# Install requirements
-pip install -r requirements.txt
-
-# Install Playwright with system dependencies
-playwright install chromium --with-deps
+brew install python3
 ```
 
 ### Linux (Ubuntu/Debian)
-
 ```bash
-# Install system dependencies first
 sudo apt-get update
-sudo apt-get install -y python3-pip
-
-# Install Python packages
-pip install -r requirements.txt
-
-# Install Playwright with dependencies
-playwright install chromium --with-deps
+sudo apt-get install -y python3 python3-pip
+playwright install-deps chromium
 ```
-
-### Linux (CentOS/RHEL)
-
-```bash
-# Install system dependencies
-sudo yum install -y python3-pip
-
-# Install Python packages
-pip install -r requirements.txt
-
-# Install Playwright
-playwright install chromium --with-deps
-```
-
----
 
 ## Troubleshooting
 
-### Issue: `ModuleNotFoundError: No module named 'agno'`
-
-**Solution**: Install agno
+**Import Errors:**
+Ensure you're in the project root directory:
 ```bash
-pip install agno
+cd "path/to/Test app v2"
+python cli.py test
 ```
 
-### Issue: `Playwright executable doesn't exist`
-
-**Solution**: Install Playwright browsers
+**Playwright Issues:**
 ```bash
-playwright install chromium
+playwright install chromium --with-deps
 ```
 
-### Issue: `OpenAI API Key not configured`
-
-**Solution**: Add your API key to `config.py`
-```python
-OPENAI_API_KEY = "sk-your-key-here"
-```
-
-### Issue: `PageSpeed API timeout`
-
-**Solutions**:
-1. Timeout increased to 90 seconds (already done)
-2. Get a PageSpeed API key for priority access
-3. System falls back to local analysis automatically
-
-### Issue: Port already in use (7860 or 7777)
-
-**Solution**: Change port in the app file or kill existing process
-
-Windows:
+**Permission Errors (Linux):**
 ```bash
-netstat -ano | findstr :7860
-taskkill /PID <process_id> /F
+sudo playwright install-deps
 ```
 
-Linux/Mac:
+**API Connection Issues:**
+Verify your API key is correct in `config.py` and run:
 ```bash
-lsof -ti:7860 | xargs kill -9
+python cli.py config
 ```
-
----
-
-## Development Setup
-
-For development with hot-reload:
-
-```bash
-# Web UI with auto-reload
-gradio webapp.py
-
-# AgentOS with reload
-python playground_app.py  # Already has reload=True
-```
-
----
-
-## Updating Dependencies
-
-To update all packages to latest versions:
-
-```bash
-pip install --upgrade -r requirements.txt
-playwright install chromium
-```
-
----
-
-## Virtual Environment (Recommended)
-
-### Create Virtual Environment
-
-Windows:
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-Linux/Mac:
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### Install in Virtual Environment
-
-```bash
-pip install -r requirements.txt
-playwright install chromium
-```
-
-### Deactivate
-
-```bash
-deactivate
-```
-
----
-
-## Minimal Installation (No UI)
-
-If you only need the CLI (no web UI):
-
-```bash
-# Minimal dependencies
-pip install agno openai requests beautifulsoup4 playwright
-
-# Install browser
-playwright install chromium
-```
-
----
-
-## Docker (Optional)
-
-Coming soon: Dockerfile for containerized deployment
-
----
-
-## Verification Checklist
-
-After installation, verify:
-
-- [ ] Python 3.8+ installed
-- [ ] All pip packages installed
-- [ ] Playwright chromium installed
-- [ ] OpenAI API key configured
-- [ ] PageSpeed API key configured (optional)
-- [ ] Can run `python agent.py` without errors
-- [ ] Can access webapp at http://localhost:7860
-
----
-
-## Getting Help
-
-If you encounter issues:
-
-1. Check this troubleshooting guide
-2. Verify all dependencies installed: `pip list`
-3. Check Playwright: `playwright --version`
-4. Review error messages carefully
-5. Check [docs/](docs/) for detailed documentation
-
----
-
-## Next Steps
-
-After installation:
-
-1. **Test the CLI**: `python agent.py`
-2. **Try the Web UI**: `python webapp.py`
-3. **Read the docs**: Check [README.md](README.md)
-4. **Explore examples**: See [examples.py](examples.py)
-
----
-
-**Happy Analyzing! 🚀**
