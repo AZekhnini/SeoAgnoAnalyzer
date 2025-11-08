@@ -35,10 +35,10 @@ Perform comprehensive analysis on URLs, HTML, or screenshots.
 
 ```bash
 # Analyze a URL (full analysis: SEO + Performance + UI/UX)
-python cli.py analyze --url https://nightwatch.io
+python cli.py analyze --url https://example.com
 
 # Non-streaming mode (wait for complete results)
-python cli.py analyze --url https://nightwatch.io --no-stream
+python cli.py analyze --url https://example.com --no-stream
 ```
 
 #### HTML Analysis
@@ -134,7 +134,7 @@ python cli.py api --reload
 
 ```bash
 python cli.py analyze \
-  --url https://nightwatch.io
+  --url https://example.com
 ```
 
 ### Example 2: HTML File Analysis
