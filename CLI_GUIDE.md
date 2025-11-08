@@ -21,9 +21,6 @@ python cli.py analyze --screenshot screenshot.png
 # Analyze multiple screenshots
 python cli.py analyze --screenshots '{"desktop": "d.png", "mobile": "m.png"}'
 
-# Save output to file
-python cli.py analyze --url https://example.com --output report.md
-
 # Disable streaming
 python cli.py analyze --url https://example.com --no-stream
 ```
@@ -66,7 +63,6 @@ python cli.py api --host 0.0.0.0 --port 8080 --reload
 - `--html-file FILE` - Path to HTML file
 - `--screenshot PATH` - Path to screenshot image
 - `--screenshots JSON` - JSON with multiple screenshots
-- `--output FILE` - Save results to file
 - `--no-stream` - Wait for complete results
 - `--verbose` - Show detailed errors
 
@@ -93,7 +89,7 @@ python cli.py analyze --html-file landing-page.html
 python cli.py analyze --screenshots '{"desktop": "desktop.png", "mobile": "mobile.png"}'
 ```
 
-**Save and review later:**
+**Non-streaming output:**
 ```bash
-python cli.py analyze --url https://example.com --output analysis.md --no-stream
+python cli.py analyze --url https://example.com --no-stream
 ```

@@ -72,12 +72,6 @@ def cmd_analyze(args):
     try:
         result = analyze(user_input, stream=not args.no_stream)
 
-        # Save to file if requested
-        if args.output:
-            output_path = Path(args.output)
-            output_path.write_text(result, encoding='utf-8')
-            print(f"\nResults saved to: {args.output}")
-
         # Print summary if not streaming
         if args.no_stream:
             print(result)
@@ -161,7 +155,6 @@ def cmd_examples(args):
 
     examples = [
         ("Analyze a URL", "python cli.py analyze --url https://example.com"),
-        ("Analyze with output file", "python cli.py analyze --url https://example.com --output report.md"),
         ("Analyze HTML from file", "python cli.py analyze --html-file index.html"),
         ("Analyze inline HTML", 'python cli.py analyze --html "<html><head><title>Test</title></head></html>"'),
         ("Analyze screenshot", "python cli.py analyze --screenshot path/to/screenshot.png"),
@@ -231,7 +224,6 @@ def main():
         epilog="""
 Examples:
   %(prog)s analyze --url https://example.com
-  %(prog)s analyze --url https://example.com --output report.md
   %(prog)s analyze --html-file index.html
   %(prog)s config
   %(prog)s test
@@ -283,11 +275,6 @@ For more information: https://github.com/your-repo
         help='JSON object with multiple screenshots (e.g., \'{"desktop": "d.png", "mobile": "m.png"}\')'
     )
 
-    analyze_parser.add_argument(
-        '--output', '-o',
-        metavar='FILE',
-        help='Save results to file (default: print to stdout)'
-    )
     analyze_parser.add_argument(
         '--no-stream',
         action='store_true',
