@@ -24,13 +24,30 @@ playwright install chromium
 
 ### Configuration
 
-Create `config.py`:
+**Option 1: Using config.py (Recommended for development)**
 
-```python
-class Config:
-    OPENAI_API_KEY = "your-openai-api-key"
-    PAGESPEED_API_KEY = "optional-pagespeed-key"
+Copy the example config and add your API keys:
+```bash
+cp config.example.py config.py
+# Edit config.py and add your API keys
 ```
+
+**Option 2: Using environment variables (Recommended for production)**
+
+```bash
+export OPENAI_API_KEY="your-openai-api-key"
+export PAGESPEED_API_KEY="optional-pagespeed-key"  # Optional
+```
+
+Or create a `.env` file:
+```
+OPENAI_API_KEY=your-openai-api-key
+PAGESPEED_API_KEY=optional-pagespeed-key
+```
+
+**Get API Keys:**
+- OpenAI API Key (required): https://platform.openai.com/api-keys
+- PageSpeed API Key (optional): https://developers.google.com/speed/docs/insights/v5/get-started
 
 ### Usage
 
